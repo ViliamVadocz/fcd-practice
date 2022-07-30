@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::Ongoing;
 
 pub const TIMER_COLOR: Color = Color::ANTIQUE_WHITE;
-const TIMER_SECONDS: f32 = 5.;
+const TIMER_SECONDS: f32 = 60.;
 
 pub struct TimerPlugin;
 
