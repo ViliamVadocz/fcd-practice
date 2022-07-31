@@ -44,8 +44,21 @@ fn main() {
 #[derive(Default)]
 struct Ongoing(bool);
 
-fn setup_system(mut commands: Commands) {
+struct AudioHandles {
+    click: Handle<AudioSource>,
+    ding: Handle<AudioSource>,
+    correct: Handle<AudioSource>,
+    incorrect: Handle<AudioSource>,
+}
+
+fn setup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn_bundle(Camera2dBundle::default());
+    commands.insert_resource(AudioHandles {
+        click: asset_server.load("sounds/click.ogg"),
+        ding: asset_server.load("sounds/ding.ogg"),
+        correct: asset_server.load("sounds/correct.ogg"),
+        incorrect: asset_server.load("sounds/incorrect.ogg"),
+    });
 }
 
 fn esc_to_exit(keys: Res<Input<KeyCode>>, mut event_writer: EventWriter<AppExit>) {

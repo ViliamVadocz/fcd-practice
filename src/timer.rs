@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::Ongoing;
 
 pub const TIMER_COLOR: Color = Color::ANTIQUE_WHITE;
-const TIMER_SECONDS: f32 = 60.;
+const TIMER_SECONDS: f32 = 5.;
 
 pub struct TimerPlugin;
 
@@ -56,25 +56,15 @@ fn update_timer_system(mut timer: ResMut<Timer>, time: Res<Time>, ongoing: Res<O
     }
 }
 
-fn time_up_system(
+pub(crate) fn time_up_system(
     timer: Res<Timer>,
     mut ongoing: ResMut<Ongoing>,
     mut query: Query<&mut Text, With<TimerText>>,
-    audio: Res<Audio>,
-    asset_server: Res<AssetServer>,
 ) {
     if timer.just_finished() && ongoing.0 {
         *ongoing = Ongoing(false);
         // Chance timer color to RED.
         query.single_mut().sections[0].style.color = Color::RED;
-        // Play ding!
-        audio.play_with_settings(
-            asset_server.load("sounds/ding.ogg"),
-            PlaybackSettings {
-                volume: 0.5, // originally very loud and very scary
-                ..default()
-            },
-        );
     }
 }
 
